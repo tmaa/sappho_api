@@ -27,7 +27,7 @@ router.post("/register", async (req, res, next) => {
   const user = new User({
     _id: req.body.id,
     name: req.body.name,
-    age: req.body.age,
+    dob: req.body.dob,
     height: req.body.height,
     email: req.body.email,
     phone: req.body.phone,
@@ -83,9 +83,27 @@ router.get("/login", async (req, res, next) => {
   console.log(req)
 });
 
-//PUT - Update specific user
-router.put("/api/users/:id", (req, res, next) => {
-
+/*
+Update specific user
+Only fields eligible for updates are preferences
+*/
+router.put("/me/preferences", verifyAccess, async (req, res, next) => {
+  try{
+    const user = await User.findOneAndUpdate(
+      {_id: req.authId}, 
+      {$set: 
+        {
+          "preferences.minAge": req.body.minAge,
+          "preferences.maxAge": req.body.maxAge,
+          "preferences.maxDistance": req.body.maxDistance,
+        }
+      }, {new: true},    
+    )
+    console.log(user)
+    res.status(200).send({user: user});
+  }catch(err){
+    res.status(400).send({error: err})
+  }
 });
 
 module.exports = router

@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema({
     //required: true,
     max: 50
   },
-  age: {
-    type: Number,
+  dob: {
+    type: Date,
     //required: true
   },
   height: {
@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema({
   preferences: {
     type: preferencesSchema
   }
-});
+}, {timestamps: true});
 
-userSchema.index({"location": "2dsphere"})
+userSchema.index({location: "2dsphere"})
 module.exports = mongoose.model('User', userSchema)

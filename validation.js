@@ -5,7 +5,7 @@ const registerValidation = (data) => {
   const schema = Joi.object({
     id: Joi.string().required(),
     name: Joi.string().max(50).required(),
-    age: Joi.number().required(),
+    dob: Joi.date().required(),
     height: Joi.number().required(),
     email: Joi.string().required(),
     phone: Joi.string(),
